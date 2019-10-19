@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper">
+
+    <insert parameterType="map" id="insertarItem">
+        insert into VI_ITEMS VALUES (#{it.id}, #{it.nombre}, #{it.descripcion}, #{it.fechaLanzamiento}, #{it.tarifaxDia}, #{it.formatoRenta}, #{it.genero}, #{it.tipo.id});
+    </insert>
+
+    <select parameterType="map" id="consultarItems" resultMap="ItemResult">
+        select
+        itms.id ,
+        itms.nombre,
+        itms.descripcion,
+        itms.fechalanzamiento,
+        itms.tarifaxdia,
+        itms.formatorenta,
+        itms.genero,
+        itm.id as tipo_id,
+        itm.descripcion as tipo_descripcion
+        FROM VI_ITEMS AS itms JOIN VI_TIPOITEM AS itm ON itms.TIPOITEM_id = itm.id;
+    </select>
+
+    <select parameterType="map" id="consultarItem" resultMap="ItemResult">
+        select
+        itms.id ,
+        itms.nombre,
+        itms.descripcion,
+        itms.fechalanzamiento,
+        itms.tarifaxdia,
+        itms.formatorenta,
+        itms.genero,
+        itm.id as tipo_id,
+        itm.descripcion as tipo_descripcion
+        FROM VI_ITEMS AS itms JOIN VI_TIPOITEM AS itm ON itms.TIPOITEM_id = itm.id
+        WHERE itms.id = #{idItm};
+    </select>
+    
+    <resultMap type='Item' id='ItemResult'>
+      <id property='id' column='item_id'/>
+      <result property='nombre' column='item_nombre'/>
+      <result property='descripcion' column='item_descripcion'/>
+      <result property='fechaLanzamiento' column='item_fechalanzamiento'/>
+      <result property='tarifaxDia' column='item_tarifaxdia'/>
+      <result property='formatoRenta' column='item_formatorenta'/>
+      <result property='genero' column='item_genero'/>
+      <association property="tipo" javaType="TipoItem" column='tipoitem_id' resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper.TipoItemResult"></association>
+	  </resultMap>
+	
+    
+</mapper>
