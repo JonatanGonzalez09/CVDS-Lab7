@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <h1> Registro Alquiler Videotienda</h1>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:dataTable var="itmRent" value="#{AlquilerItems.getClienteSelec().rentados}"
+                         rows="5" paginator="true">
+            <f:facet name="header">
+                Items Alquilados
+            </f:facet>
+            <p:column headerText="Item Rentado">
+                <h:outputText value="#{itmRent.item.nombre}"/>
+            </p:column>
+            <p:column headerText="Fecha Inicio">
+                <h:outputText value="#{itmRent.fechainiciorenta}"/>
+            </p:column>
+            <p:column headerText="Fecha Fin">
+                <h:outputText value="#{itmRent.fechafinrenta}"/>
+            </p:column>
+            <p:column headerText="Multa">
+				 <h:outputText value="#{AlquilerItems.consultarMulta(item.id)}"></h:outputText>
+             </p:column>
+        </p:dataTable>
+
+        <section>
+            <h:panelGrid id = "panel" columns = "2" border = "1" cellpadding = "10" cellspacing = "1">
+                <f:facet name = "header">
+                    <h:outputText value = "Nuevo Alquiler"/>
+                </f:facet>
+                <h:outputLabel value = "Id Item" />
+                <h:inputText />
+                <h:outputLabel value = "Dias" />
+                <h:inputText />
+                <h:outputLabel value = "Costo" />
+                <h:inputText />
+                <f:facet name = "footer">
+                    <h:panelGroup style = "display:block; text-align:center">
+                        <h:commandButton id = "RegistrarAlquiler" value = "Registrar Alquiler" />
+                    </h:panelGroup>
+                </f:facet>
+             </h:panelGrid>
+        </section>
+
+    </h:form>
+</h:body>
+</html>
