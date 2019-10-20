@@ -13,7 +13,7 @@ import edu.eci.cvds.samples.entities.Cliente;
  */
 public interface ClienteMapper {
     
-    public Cliente consultarCliente(@Param("idcli") int id);
+    public Cliente consultarCliente(@Param("idcli") long id);
 
     
     /**
@@ -34,5 +34,19 @@ public interface ClienteMapper {
      * @return 
      */
     public List<Cliente> consultarClientes();
-    
+
+    /**
+     *  Actualizar Cliente Vetado
+     */
+    public void updateCliente(@Param("idcli")long id , @Param("Cvetado") Boolean vet);
+
+    /**
+     * Registrar alquiler Cliente
+     */
+    public void registrarAlquilerCliente(@Param("fechainiciorenta")Date fechainiciorenta , @Param("idcli")long docu, @Param("itemId")int item, @Param("fechafinrenta")Date fechafinrenta);
+
+    /**
+     * Registrar Cliente
+     */
+    public void insertCliente(@Param("cli") Cliente cli);
 }

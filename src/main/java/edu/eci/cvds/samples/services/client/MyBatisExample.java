@@ -67,12 +67,14 @@ public class MyBatisExample {
     public static void main(String args[]) throws SQLException {
         SqlSessionFactory sessionfact = getSqlSessionFactory();
         SqlSession sqlss = sessionfact.openSession();
+
         //Crear el mapper CLIENTE y usarlo: 
         ClienteMapper cm=sqlss.getMapper(ClienteMapper.class);
         System.out.println("ConsultarClientes:");
         System.out.println(cm.consultarClientes());
         System.out.println("ConsultarCliente:");
-        System.out.println(cm.consultarCliente(3));
+        Long id = (long) 4;
+        System.out.println(cm.consultarCliente(id));
         
         Date fechaInicio = parseFecha("2019-10-19");
         Date fechaFin = parseFecha("2019-10-29");
@@ -81,10 +83,9 @@ public class MyBatisExample {
 
         //Crear el mapper ITEM y usarlo:
         ItemMapper im=sqlss.getMapper(ItemMapper.class);
-        //CAMBIAR TIPO
-        TipoItem ti = new TipoItem(3,"Peliculas");
+        TipoItem ti = new TipoItem(2,"Accion");
         Date fechaLanza = parseFecha("2019-09-10");
-        Item it = new Item(ti, 100, "Prueba", "Cualquier cosa", fechaLanza, 5000, "FormatRent", "Generito");
+        Item it = new Item(ti, 197927, "Prueba", "Cualquier cosa", fechaLanza, 5000, "FormatRent", "Generito");
         im.insertarItem(it);
 
         System.out.println("Consultar Items:");
