@@ -1,6 +1,10 @@
 package edu.eci.cvds.view;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -8,8 +12,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import com.google.inject.Inject;
-
-import org.primefaces.event.SelectEvent;
 
 import edu.eci.cvds.samples.entities.Cliente;
 import edu.eci.cvds.samples.entities.Item;
@@ -19,81 +21,92 @@ import edu.eci.cvds.samples.services.ServiciosAlquiler;
 
 @ManagedBean(name = "AlquilerItemsBean")
 @SessionScoped
-public class AlquilerItemsBean extends BasePageBean{
+public class AlquilerItemsBean extends BasePageBean {
 
     private static final long serialVersionUID = 1L;
 
-    private Cliente clienteSelec;
+    private String nombre;
+    private long documento;
+    private String telefono;
+    private String direccion;
+    private String email;
+    private boolean vetado;
+    private ArrayList<ItemRentado> rentados;
 
     @Inject
     private ServiciosAlquiler serviciosAlquiler;
 
-    public Cliente getClienteSelec() throws ExcepcionServiciosAlquiler {
-        try{
-            return serviciosAlquiler.consultarCliente(clienteSelec.getDocumento());
-        }catch(ExcepcionServiciosAlquiler ex){
-            throw ex;
-        }
-    }
-
-    public void registrarCliente(String nombre, long documento, String telefono, String direccion, String email){
-        try{
+    /** Vista cliente */
+    public void registrarCliente(String nombre, long documento, String telefono, String direccion, String email)
+            throws ExcepcionServiciosAlquiler {
+        try {
             serviciosAlquiler.registrarCliente(new Cliente(nombre, documento, telefono, direccion, email));
-        }catch(ExcepcionServiciosAlquiler excepcionServiciosAlquiler){
-
+        } catch (ExcepcionServiciosAlquiler ex) {
+            throw ex;
         }
     }
 
     public List<Cliente> consultarClientes() throws ExcepcionServiciosAlquiler {
         List<Cliente> listClientes = null;
-        try{
+        try {
             listClientes = serviciosAlquiler.consultarClientes();
-        }catch(ExcepcionServiciosAlquiler ex){
+        } catch (ExcepcionServiciosAlquiler ex) {
             throw ex;
         }
         return listClientes;
     }
 
-    public void AlquilerItem(int item, int nDias) throws ExcepcionServiciosAlquiler {
-        Item objItem = serviciosAlquiler.consultarItem(item);
-        try{
-            serviciosAlquiler.registrarAlquilerCliente(new Date(System.currentTimeMillis()), clienteSelec.getDocumento(), objItem, nDias);
-        }catch(ExcepcionServiciosAlquiler excepcionServiciosAlquiler){
-
+    public void seleccionarCliente() throws Exception {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("registroalquiler.xhtml?documento=" + documento);
+            System.out.println ("documento: "+documento);
+        } catch (Exception e) {
+            throw e;
         }
+
     }
-    
-    public List<ItemRentado> consulItemsRentados(){
+
+    /** vista Alquiler */
+    public List<ItemRentado> consulItemsRentados() {
         List<ItemRentado> listRentados = null;
         try {
-            listRentados = serviciosAlquiler.consultarItemsCliente(clienteSelec.getDocumento());
-        }catch(ExcepcionServiciosAlquiler excepcionServiciosAlquiler){
+            listRentados = serviciosAlquiler.consultarItemsCliente(documento);
+        } catch (ExcepcionServiciosAlquiler excepcionServiciosAlquiler) {
 
         }
         return listRentados;
     }
 
-    public long consulCostoAlquiler(int item , int nDias){
-        long costo=0;
+    public void registarAlquiler(int item, int nDias) throws ExcepcionServiciosAlquiler {
+        Item objItem = serviciosAlquiler.consultarItem(item);
         try {
-            costo= serviciosAlquiler.consultarCostoAlquiler(item, nDias);
-        } catch (ExcepcionServiciosAlquiler e) {
-            
+            serviciosAlquiler.registrarAlquilerCliente(new Date(System.currentTimeMillis()), documento, objItem, nDias);
+        } catch (ExcepcionServiciosAlquiler excepcionServiciosAlquiler) {
+
         }
-        return costo;
     }
 
-    public void setClienteSelec(Cliente newClienteSelec) {
-        this.clienteSelec = newClienteSelec;
-    }
-
-    public void seleccionarCliente(SelectEvent event) throws Exception {
+    public long multaAlquiler(int iditem) throws ExcepcionServiciosAlquiler, ParseException {
         try{
-            long documento= ((Cliente) event.getObject()).getDocumento();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("registroalquiler.xhtml?docu="+documento);
-        }catch(Exception e){
-            throw e;
-        }
+            Calendar fecha = Calendar.getInstance();
+            int dia = fecha.get(Calendar.DAY_OF_MONTH);
+            int mes = fecha.get(Calendar.MONTH);
+            int año = fecha.get(Calendar.YEAR);
+            String fechaSis = año + "/" + (mes) + "/" + dia ;
+            System.out.println(fechaSis);
+            Date fechaSistema = (Date) new SimpleDateFormat("yyyy/MM/dd").parse(fechaSis);
+            return serviciosAlquiler.consultarMultaAlquiler(iditem, fechaSistema);
+        }catch(ExcepcionServiciosAlquiler ex){
+            throw ex;
 
+        }
+    }
+
+    public void setDoc(long newDocumento){
+        this.documento = newDocumento;
+    }
+
+    public long getDoc(){
+        return this.documento;
     }
 }

@@ -70,7 +70,7 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
            throw new ExcepcionServiciosAlquiler("Error al consultar los clientes ", ex);
         }
    }
-
+   
    @Override
    public Item consultarItem(int id) throws ExcepcionServiciosAlquiler {
        try {

@@ -23,9 +23,9 @@
         ti.id as tipo_id ,
         ti.descripcion as tipo_id
         FROM VI_CLIENTES as c
-        left join VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento
-        left join VI_ITEMS as i on ir.ITEMS_id=i.id
-        left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id
+        LEFT JOIN VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento
+        LEFT JOIN VI_ITEMS as i on ir.ITEMS_id=i.id
+        LEFT JOIN VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id
     </select>
 
     <select parameterType="map" id="consultarCliente" resultMap="ClienteResult">
@@ -49,9 +49,9 @@
         ti.id as tipo_id ,
         ti.descripcion as tipo_id
         FROM VI_CLIENTES as c
-        left join VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento
-        left join VI_ITEMS as i on ir.ITEMS_id=i.id
-        left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id
+        LEFT JOIN VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento
+        LEFT JOIN VI_ITEMS as i on ir.ITEMS_id=i.id
+        LEFT JOIN VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id
         WHERE c.documento = #{idcli};
     </select>
 

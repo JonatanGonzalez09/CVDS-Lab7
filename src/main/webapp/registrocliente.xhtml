@@ -9,7 +9,7 @@
 </h:head>
 
 <h:body>
-    <h:form>
+    <h:form id ="FormularioCliente">
         <p:dataTable var="cliente" value="#{AlquilerItemsBean.consultarClientes()}" rows="10" paginator="true"
             rowkey='#cliente.getDocumento()' dbClickSelected="true">
             <p:ajax event="rowSelect" listener="#{AlquilerItemsBean.seleccionarCliente}" />
@@ -38,11 +38,9 @@
                 <h:outputText value="#{cliente.isVetado()}" />
             </p:column>
 
-           <!--  <p:column headerText="Items Rentados">
-                <h:commandLink action="registroalquiler?faces-redirect = true" value="Ver">
-                    <f:setPropertyActionListener value="#{cliente}" target="#{AlquilerItemsBean.consulItemsRentados()}" />
-                </h:commandLink>
-            </p:column> -->
+            <p:column headerText="Items Rentados">
+                <p:commandButton actionListener="#{AlquilerItemsBean.setDoc(cliente.documento)}" value="Items" action="#{AlquilerItemsBean.seleccionarCliente()}"/>
+            </p:column>
 
         </p:dataTable>
 
@@ -64,7 +62,7 @@
                 <h:inputText />
                 <f:facet name="footer">
                     <h:panelGroup style="display:block; text-align:center">
-                        <h:commandButton id="RegistrarCliente" value="Registrar Cliente" />
+                        <h:commandButton id="RegistrarCliente" actionListener="#{AlquilerItemsBean.ingresarCliente()}" value="Registrar Cliente" update=":FormularioCliente" />
                     </h:panelGroup>
                 </f:facet>
             </h:panelGrid>

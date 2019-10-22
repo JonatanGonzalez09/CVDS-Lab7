@@ -9,8 +9,9 @@
 </h:head>
 
 <h:body>
-    <h:form>
-        <p:dataTable var="itmRent" value="#{AlquilerItems.getClienteSelec().rentados}"
+    <h:form id="FormularioAlquiler" >
+        <p:dataTable var="itmRent" value="#{AlquilerItemsBean. consulItemsRentados()}"
+        emptyMessage ="No hay items"
                          rows="5" paginator="true">
             <f:facet name="header">
                 Items Alquilados
@@ -25,7 +26,7 @@
                 <h:outputText value="#{itmRent.fechafinrenta}"/>
             </p:column>
             <p:column headerText="Multa">
-				 <h:outputText value="#{AlquilerItems.consultarMulta(item.id)}"></h:outputText>
+				 <h:outputText value="#{AlquilerItemsBean.multaAlquiler(itmRent.id)}"></h:outputText>
              </p:column>
         </p:dataTable>
 
@@ -42,7 +43,7 @@
                 <h:inputText />
                 <f:facet name = "footer">
                     <h:panelGroup style = "display:block; text-align:center">
-                        <h:commandButton id = "RegistrarAlquiler" value = "Registrar Alquiler" />
+                        <h:commandButton id = "RegistrarAlquiler" value = "Registrar Alquiler"  update=":FormularioAlquiler" />
                     </h:panelGroup>
                 </f:facet>
              </h:panelGrid>
