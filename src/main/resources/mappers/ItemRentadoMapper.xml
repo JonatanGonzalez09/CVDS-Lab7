@@ -33,7 +33,10 @@
     i.genero as item_genero ,
     ti.id as tipo_id ,
     ti.descripcion as tipo_id
-    FROM VI_ITEMRENTADO AS ir LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id=i.id
+    FROM
+    VI_CLIENTES as c
+    left join VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento 
+    LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id=i.id
     LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id=ti.id
     WHERE c.documento = #{idcli};
   </select>

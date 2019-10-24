@@ -71,7 +71,7 @@
     </insert>
 
     <insert parameterType="map" id="insertCliente">
-        insert into CLIENTE (documento, nombre, telefono, direccion, email, vetado) VALUES (#{cli.documento}, #{cli.nombre}, #{cli.telefono}, #{cli.direccion}, #{cli.email}, #{cli.vetado})
+        insert into VI_CLIENTES (documento, nombre, telefono, direccion, email, vetado) VALUES (#{cli.documento}, #{cli.nombre}, #{cli.telefono}, #{cli.direccion}, #{cli.email}, #{cli.vetado})
     </insert>
 
     <resultMap type='Cliente' id='ClienteResult'>

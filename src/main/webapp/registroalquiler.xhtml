@@ -5,12 +5,14 @@
     xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <h1> Registro Alquiler Videotienda</h1>
+        <link rel="stylesheet" type="text/css" href="estilos.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
 </h:head>
 
 <h:body>
+        <h1> Registro Alquiler Videotienda</h1>
     <h:form id="FormularioAlquiler" >
-        <p:dataTable var="itmRent" value="#{AlquilerItemsBean. consulItemsRentados()}"
+        <p:dataTable class="tabla" var="itmRent" value="#{AlquilerItemsBean.consulItemsRentados()}"
         emptyMessage ="No hay items"
                          rows="5" paginator="true">
             <f:facet name="header">
@@ -26,29 +28,38 @@
                 <h:outputText value="#{itmRent.fechafinrenta}"/>
             </p:column>
             <p:column headerText="Multa">
-				 <h:outputText value="#{AlquilerItemsBean.multaAlquiler(itmRent.id)}"></h:outputText>
+				 <h:outputText value="#{AlquilerItems.multaAlquiler(itmRent.id)}"></h:outputText>
              </p:column>
         </p:dataTable>
 
-        <section>
-            <h:panelGrid id = "panel" columns = "2" border = "1" cellpadding = "10" cellspacing = "1">
-                <f:facet name = "header">
-                    <h:outputText value = "Nuevo Alquiler"/>
-                </f:facet>
-                <h:outputLabel value = "Id Item" />
-                <h:inputText />
-                <h:outputLabel value = "Dias" />
-                <h:inputText />
-                <h:outputLabel value = "Costo" />
-                <h:inputText />
-                <f:facet name = "footer">
-                    <h:panelGroup style = "display:block; text-align:center">
-                        <h:commandButton id = "RegistrarAlquiler" value = "Registrar Alquiler"  update=":FormularioAlquiler" />
-                    </h:panelGroup>
-                </f:facet>
-             </h:panelGrid>
-        </section>
-
-    </h:form>
+        <div class="row">
+            <div class="card-panel white lighten-2 formulario col l5 ">
+                <h5>Registar Nuevo Alquiler</h5>
+                    <div class="input-field col l7 ">
+                        <p:inputText id="nombre" value="#{AlquilerItemsBean.idItem}" placeholder="Ingrese el id del item" />
+                        <label class="active">Id Item</label>
+                    </div>
+                    <div class="input-field col l7 ">
+                        <p:inputText id="documento" value="#{AlquilerItemsBean.numDias}" placeholder="Ingrese el numero de dias" />
+                        <label class="active">Dias</label>
+                    </div>
+                    <div class="input-field col l7 ">
+                        <h:commandButton class="waves-effect red btn-small" id="RegistrarCliente"
+                            actionListener="#{AlquilerItemsBean.consultarCosto()}" value="Consultar costo"
+                            update=":FormularioAquiler" />
+                    </div>
+                    <div class="input-field col l7 ">
+                        <label>Costo de Alquiler</label>
+                        <p:outputLabel value="#{AlquilerItemsBean.costoAlq}" />
+                    </div>
+                    <div class="input-field col l7 ">
+                        <h:commandButton id="RegistrarAlquiler" class="waves-effect red btn-small"
+                            actionListener="#{AlquilerItemsBean.registarAlquiler()}" value="Registrar Alquiler"
+                            update=":FormularioAlquiler" />
+                    </div>
+                </div>
+            </div>
+        </h:form> 
 </h:body>
+
 </html>
